@@ -1,0 +1,14 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/app/build
+/captures
+.externalNativeBuild
+.cxx
+
+# Web bundle is built on demand by the syncWebAssets Gradle task
+# (or by GitHub Actions in CI). Never commit build artifacts.
+/app/src/main/assets/web/

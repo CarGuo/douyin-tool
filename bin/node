@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Project-local node shim. Usage: ./bin/node script.js
+set -e
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT="$(cd "$HERE/.." && pwd)"
+NODE="$ROOT/tools/node/bin/node"
+if [[ ! -x "$NODE" ]]; then
+  bash "$ROOT/scripts/bootstrap-node.sh" >&2
+fi
+exec "$NODE" "$@"

@@ -1,0 +1,31 @@
+{
+  "name": "douyin-tool",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A self-hosted, free, stable Douyin (TikTok-CN) link parser & downloader. Supports PWA add-to-homescreen on iOS/Android.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.11.0",
+    "npm": ">=10.0.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "preinstall": "node scripts/check-package-age.mjs --soft",
+    "postinstall": "node scripts/check-package-age.mjs",
+    "audit:age": "node scripts/check-package-age.mjs",
+    "dev": "npm run dev --workspaces --if-present",
+    "dev:server": "npm run dev -w @douyin-tool/server",
+    "dev:web": "npm run dev -w @douyin-tool/web",
+    "build": "npm run build -w @douyin-tool/web && npm run build -w @douyin-tool/server",
+    "start": "node packages/server/dist/index.js",
+    "test": "npm run test --workspaces --if-present",
+    "test:regression": "node scripts/run-regression.mjs",
+    "lint": "npm run lint --workspaces --if-present",
+    "docker:build": "docker build -t douyin-tool:latest .",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down"
+  },
+  "devDependencies": {}
+}

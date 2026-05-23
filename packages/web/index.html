@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="./icons/icon-192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#fe2c55" />
+
+    <!-- PWA -->
+    <link rel="manifest" href="./manifest.webmanifest" />
+
+    <!-- iOS add-to-home-screen support
+         Multi-resolution PNGs are checked into packages/web/public/icons/ so
+         the build is fully self-contained, no host-level imagemagick needed. -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="抖音解析" />
+    <link rel="apple-touch-icon" href="./icons/icon-180.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="./icons/icon-152.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="./icons/icon-167.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png" />
+
+    <title>douyin-tool · 抖音公开分享内容解析（学习用）</title>
+    <meta name="description" content="抖音公开分享页内容解析的开源学习项目。仅供个人学习、技术研究、本人作品备份；与字节跳动 / 抖音 / TikTok 无任何关联。" />
+  </head>
+  <body class="bg-neutral-950 text-neutral-100">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

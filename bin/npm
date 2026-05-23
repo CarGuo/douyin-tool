@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Project-local npm shim. Usage: ./bin/npm install
+set -e
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT="$(cd "$HERE/.." && pwd)"
+NPM="$ROOT/tools/node/bin/npm"
+if [[ ! -x "$NPM" ]]; then
+  bash "$ROOT/scripts/bootstrap-node.sh" >&2
+fi
+# Ensure npm uses the bundled node, not whatever happens to be on PATH.
+export PATH="$ROOT/tools/node/bin:$PATH"
+exec "$NPM" "$@"

@@ -1,0 +1,40 @@
+# syntax=docker/dockerfile:1
+#
+# Pre-built runtime Dockerfile for memory-constrained servers.
+# Use this when the build server is too small to run `npm ci` / `vite build`.
+#
+# Steps to use it (run on a beefier developer machine):
+#   1. DOUYIN_BASE=/dy/ npm run build
+#      → produces packages/web/dist + packages/server/dist
+#   2. ./scripts/prepare-deploy-prod.sh
+#      → produces .deploy-prod/node_modules (production-only deps)
+#   3. Ship the workspace tree (incl. dist + .deploy-prod/node_modules) to the
+#      server, then run: docker-compose build && docker-compose up -d
+#
+# This image performs ZERO npm install on the server, avoiding OOM issues
+# on small Tencent Cloud / DigitalOcean Droplet sized boxes.
+
+FROM node:20.18.0-alpine
+ENV NODE_ENV=production \
+    SERVE_STATIC=1 \
+    HOST=0.0.0.0 \
+    PORT=3000
+WORKDIR /app
+
+COPY package.json ./
+COPY packages/server/package.json ./packages/server/
+COPY packages/web/package.json ./packages/web/
+
+# Pre-installed production dependencies (built on the developer host).
+COPY .deploy-prod/node_modules ./node_modules
+
+# Application artifacts (TS-compiled server + Vite-built web).
+COPY packages/server/dist ./packages/server/dist
+COPY packages/web/dist ./packages/web/dist
+
+EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+  CMD wget -qO- http://127.0.0.1:3000/api/health >/dev/null || exit 1
+
+USER node
+CMD ["node", "packages/server/dist/index.js"]

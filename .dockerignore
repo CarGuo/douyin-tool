@@ -1,0 +1,12 @@
+.git
+# Top-level dev node_modules.
+/node_modules
+# Per-workspace dev node_modules.
+packages/*/node_modules
+**/build
+**/.cache
+**/.vite
+coverage
+*.log
+.DS_Store
+harness/regression/last-run.json

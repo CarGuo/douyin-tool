@@ -1,0 +1,39 @@
+version: "3.7"
+services:
+  douyin-tool:
+    build:
+      context: .
+      # Pre-built runtime Dockerfile (web/server dist must exist locally).
+      # See Dockerfile.runtime for build instructions and rationale.
+      dockerfile: Dockerfile.runtime
+    image: douyin-tool:latest
+    container_name: douyin-tool
+    restart: unless-stopped
+    ports:
+      # Bind to localhost only — Nginx proxies into the container.
+      - "127.0.0.1:${HOST_PORT}:3000"
+    environment:
+      NODE_ENV: production
+      SERVE_STATIC: "1"
+      PORT: "3000"
+      DOUYIN_BASE: "${DOUYIN_BASE:-/}"
+      AUTH_SECRET: "${AUTH_SECRET}"
+      PIN_HASH: "${PIN_HASH}"
+      SESSION_TTL_MS: "${SESSION_TTL_MS}"
+      # OSS mirror — every var is optional; when any of the four required
+      # creds (provider/ak/sk/bucket) is empty the server will boot with
+      # mirror disabled and the in-app test panel will be hidden.
+      OSS_PROVIDER: "${OSS_PROVIDER:-}"
+      OSS_ACCESS_KEY: "${OSS_ACCESS_KEY:-}"
+      OSS_SECRET_KEY: "${OSS_SECRET_KEY:-}"
+      OSS_BUCKET: "${OSS_BUCKET:-}"
+      OSS_REGION: "${OSS_REGION:-}"
+      OSS_PUBLIC_HOST: "${OSS_PUBLIC_HOST:-}"
+      OSS_OBJECT_TTL_HOURS: "${OSS_OBJECT_TTL_HOURS:-}"
+      OSS_OBJECT_TTL_MINUTES: "${OSS_OBJECT_TTL_MINUTES:-30}"
+      OSS_AUTO_MIRROR: "${OSS_AUTO_MIRROR:-0}"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

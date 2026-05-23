@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+body {
+  -webkit-font-smoothing: antialiased;
+  background: radial-gradient(circle at 20% 0%, #1a0a13 0%, #0a0a0a 60%);
+}
+
+/* Indeterminate progress bar used while a Qiniu cloud-fetch is in flight.
+   Qiniu's /fetch is atomic and returns no progress events, so we just slide
+   a 33%-wide pill across the track to signal "something is happening". */
+@keyframes indeterminate {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
